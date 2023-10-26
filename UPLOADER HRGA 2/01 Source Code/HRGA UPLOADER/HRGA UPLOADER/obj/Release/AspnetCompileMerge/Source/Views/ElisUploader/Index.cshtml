@@ -1,0 +1,216 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var iSession = Guid.NewGuid().ToString();
+    ViewBag.pathParent = Url.Content("~").Substring(0, Url.Content("~").Length - 1);
+}
+
+<input type="hidden" id="hd_session" value="@iSession" />
+<input type="hidden" id="hd_path" value="@ViewBag.pathParent" />
+
+
+<div class="row">
+
+    <h5>UPLOAD ELIS</h5>
+
+    <br />
+
+    <div class="panel panel-default">
+        <div class="panel-heading">UPLOAD FILE</div>
+        <div class="panel-body">
+            <input type="file" name="UploadFile" id="UploadFile" />
+        </div>
+    </div>
+
+    <div id="dv_notification">
+
+    </div>
+
+
+    <div class="panel panel-default">
+        <div class="panel-heading">LIST DATA GAGAL UPLOAD</div>
+        <div class="panel-body">
+
+
+            <div id="grid"></div>
+
+
+        </div>
+    </div>
+
+
+
+
+</div>
+
+<script>
+
+    var p_str_session =''
+
+    $(document).ready(function () {
+
+       loadGrid()
+
+        $("#UploadFile").kendoUpload({
+            multiple: false,
+            async: {
+                saveUrl: "save",
+                //removeUrl: "remove",
+                autoUpload: false
+            },
+            upload: uplodaFile,
+            success: onSuccessUpload,
+            error: onError
+        });
+
+    })
+
+    function loadGrid() {
+        $("#grid").empty();
+        var grid = $("#grid").kendoGrid({
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: $("#hd_path").val() + "/ElisUploader/AjaxRead?s_str_sesionID=" + p_str_session,
+                        contentType: "application/json",
+                        type: "POST",
+                        cache: false,
+                    },
+
+                    parameterMap: function (data, operation) {
+
+                        return kendo.stringify(data)
+
+                    }
+                },
+                pageSize: 100,
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true,
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    model: {
+                        id: "PID",
+                        fields: {
+                            PID: { type: "string", filterable: true, sortable: true, editable: false },
+                            NRP: { type: "string", filterable: true, sortable: true, editable: false },
+                            INSPEKSI: { type: "string", filterable: true, sortable: true, editable: false },
+                            SIDAK: { type: "string", filterable: true, sortable: true, editable: false },
+                            BBS_PTO: { type: "string", filterable: true, sortable: true, editable: false },
+                            G_CARD: { type: "string", filterable: true, sortable: true, editable: false },
+                            TGL:    { type: "string", filterable: true, sortable: true, editable: false },
+                            STATUS: { type: "string", filterable: true, sortable: true, editable: false },
+                            REMARK: { type: "string", filterable: true, sortable: true, editable: false },
+                        }
+                    }
+                }
+            },
+            height: 500,
+            filterable: true,
+            sortable: true,
+            pageable: true,
+            resizable: true,
+           // groupable: true,
+            pageable: {
+                refresh: true,
+                buttonCount: 10,
+                input: true,
+                pageSizes: [100, 1000, 100000],
+                info: true,
+                messages: {
+                }
+            },
+            //  editable: "inline",
+            toolbar: [
+              {
+                  name: "excel",
+                  imageClass: '<button type="button" button id="btn_export" class="btn btn-info"><span class="glyphicon glyphicon-export"></span> Export</button>'
+              }, ],
+
+            excel: {
+                fileName: "upload_absen_failed.xlsx",
+                AllPages: true
+              // filterable: true
+            },
+
+            columns: [
+                {
+                    title: "No",
+                    width: "50px",
+                    template: "#= ++rowNo #",
+                    filterable: false,
+
+                },
+                { field: "NRP", title: "NRP", width: "100px" },
+                { field: "INSPEKSI", title: "INSPEKSI", width: "100px" },
+                { field: "SIDAK", title: "SIDAK", width: "100px" },
+                { field: "BBS_PTO", title: "BBS/PTO", width: "100px" },
+                { field: "G_CARD", title: "G CARD", width: "100px" },
+                { field: "TGL", title: "TANGGAL", width: "100px" },
+                { field: "REMARK", title: "REMARK", width: "100px" },
+
+            ],
+            dataBinding: function () {
+                window.rowNo = (this.dataSource.page() - 1) * this.dataSource.pageSize();
+            }
+        });
+    }
+
+    function uplodaFile(e) {
+        var files = e.files;
+        p_str_session = guid()
+
+        $.each(files, function () {
+            $("#UploadFile").data("kendoUpload").options.async.saveUrl = $("#hd_path").val() + '/ElisUploader/Upload?id=' + p_str_session;
+        });
+    }
+
+    function onSuccessUpload(e) {
+        loadGrid()
+        notification(e.response.countBerhasil,e.response.countGagal)
+        console.log(e.response.remark);
+    }
+
+    function onError(e) {
+        removeNotification();
+        alert(e.XMLHttpRequest.response);
+    }
+
+    function guid() {
+        var s_str_guid = ''
+
+        function s4() {
+            return Math.floor((1 + Math.random()) * 0x10000)
+              .toString(16)
+              .substring(1);
+        }
+
+        s_str_guid = s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+                     s4() + '-' + s4() + s4() + s4();
+
+        return s_str_guid
+    }
+
+    function notification(b, g) {
+
+        removeNotification();
+
+        i_str_result = g == 0 ? "success" : "danger"
+
+        i_str_div = '<div id="dv_childNotif" class="alert alert-' + i_str_result + '">' +
+                    '<span class="glyphicon glyphicon-info-sign"></span>' +
+                    '&nbsp; Hasil Upload : '+ g +' Gagal, '+ b +' Berhasil' +
+                    '</div>'
+
+        $("#dv_notification").append(i_str_div)
+
+    }
+
+    function removeNotification() {
+        $("#dv_childNotif").remove()
+    }
+
+</script>
+

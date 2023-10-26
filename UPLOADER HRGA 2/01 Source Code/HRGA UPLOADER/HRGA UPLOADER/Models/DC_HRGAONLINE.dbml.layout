@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="DC_HRGAONLINE">
+  <DataContextMoniker Name="/DC_HRGAONLINEDataContext" />
+  <nestedChildShapes>
+    <classShape Id="d4cbd081-3f8a-4fff-aef0-d228178f2b32" absoluteBounds="0.5, 0.5, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/DC_HRGAONLINEDataContext/TBL_TEMP_UPLOAD_ROSTER" />
+      <nestedChildShapes>
+        <elementListCompartment Id="11c86729-6733-412e-ab1a-9f7113892d38" absoluteBounds="0.51499999999999968, 0.96, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="8c0722c4-175d-42a4-a166-0e705aec48d0" absoluteBounds="2.75, 0.5, 2, 2.9247054036458331">
+      <DataClassMoniker Name="/DC_HRGAONLINEDataContext/TBL_TEMP_REVISI_ABSEN" />
+      <nestedChildShapes>
+        <elementListCompartment Id="09032ec6-e88d-4a7a-bded-57efa52c4505" absoluteBounds="2.7649999999999997, 0.96, 1.9700000000000002, 2.364705403645833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="83d43242-491d-457d-96a4-6ea5bfef7629" absoluteBounds="4.875, 0.5, 2, 2.7324039713541666">
+      <DataClassMoniker Name="/DC_HRGAONLINEDataContext/TBL_TEMP_SKL" />
+      <nestedChildShapes>
+        <elementListCompartment Id="0c9ba269-e18c-4230-a916-728329c28ec1" absoluteBounds="4.89, 0.96, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="70f0147b-a360-42a5-9f43-0986006e3d4b" absoluteBounds="0.5, 3.875, 2, 1.1939925130208333">
+      <DataClassMoniker Name="/DC_HRGAONLINEDataContext/TBL_R_USER" />
+      <nestedChildShapes>
+        <elementListCompartment Id="67b03815-a98a-4c1a-88fd-f755e7cd6220" absoluteBounds="0.51499999999999968, 4.335, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="09004ae7-fccb-45d4-906c-8cb702fd8754" absoluteBounds="7.125, 0.5, 2, 2.7324039713541666">
+      <DataClassMoniker Name="/DC_HRGAONLINEDataContext/TBL_TEMP_ELI" />
+      <nestedChildShapes>
+        <elementListCompartment Id="de2fa291-498a-45e3-bdc7-c5ad2a825246" absoluteBounds="7.14, 0.96, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="e82edd2c-45c0-48c6-9e70-f51ae6c8a571" absoluteBounds="2.75, 3.875, 2, 2.5401025390624996">
+      <DataClassMoniker Name="/DC_HRGAONLINEDataContext/TBL_TEMP_RITASE_LKM" />
+      <nestedChildShapes>
+        <elementListCompartment Id="ad0a8339-9239-4b0e-ac40-b5044d755017" absoluteBounds="2.765, 4.335, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

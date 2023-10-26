@@ -1,0 +1,201 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var iSession = Guid.NewGuid().ToString();
+    ViewBag.pathParent = Url.Content("~").Substring(0, Url.Content("~").Length - 1);
+}
+
+<input type="hidden" id="hd_session" value="@iSession" />
+<input type="hidden" id="hd_path" value="@ViewBag.pathParent" />
+
+<br />
+
+
+<div class="row">
+
+    <h3>Download</h3>
+
+    <br/>
+
+    <p><a href="~/TemplateUpload/TEMPLATE_UPLOAD_REVISI_ABSEN.xlsx">1. Template Upload Revisi Absen</a></p>
+    <p><a href="~/TemplateUpload/TEMPLATE_UPLOAD_ROSTER.xlsx">2. Template Upload Roster</a></p>
+    <p><a href="~/TemplateUpload/TEMPLATE_UPLOAD_SKL.xlsx">3. Template Upload SKL </a></p>
+    <p><a href="~/TemplateUpload/TEMPLATE_UPLOAD_ELIS.xlsx">4. Template Upload Elis</a></p>
+    <p><a href="~/TemplateUpload/KODE_ROSTER_ABSEN.xlsx">5. Kode Roster & Kode Absen</a></p>
+   
+
+</div>
+
+<script>
+
+    var p_str_session =''
+
+    $(document).ready(function () {
+
+       loadGrid()
+
+        $("#UploadFile").kendoUpload({
+            multiple: false,
+            async: {
+                saveUrl: "save",
+                //removeUrl: "remove",
+                autoUpload: false
+            },
+            upload: uplodaFile,
+            success: onSuccessUpload,
+            error: onError
+        });
+
+    })
+
+    function loadGrid() {
+        $("#grid").empty();
+        var grid = $("#grid").kendoGrid({
+            dataSource: {
+                type: "json",
+                transport: {
+                    read: {
+                        url: $("#hd_path").val() + "/RevisiAbsen/AjaxRead?s_str_sesionID=" + p_str_session,
+                        contentType: "application/json",
+                        type: "POST",
+                        cache: false,
+                    },
+
+                    parameterMap: function (data, operation) {
+
+                        return kendo.stringify(data)
+
+                    }
+                },
+                pageSize: 100,
+                serverPaging: true,
+                serverFiltering: true,
+                serverSorting: true,
+                schema: {
+                    data: "Data",
+                    total: "Total",
+                    model: {
+                        id: "PID",
+                        fields: {
+                            PID: { type: "string", filterable: true, sortable: true, editable: false },
+                            NRP: { type: "string", filterable: true, sortable: true, editable: false },
+                            TANGGAL: { type: "string", filterable: true, sortable: true, editable: false },
+                            SHIFT: { type: "string", filterable: true, sortable: true, editable: false },
+                            IN: { type: "string", filterable: true, sortable: true, editable: false },
+                            OUT: { type: "string", filterable: true, sortable: true, editable: false },
+                            ROSTER_CODE: { type: "string", filterable: true, sortable: true, editable: false },
+                            KODE_ABSEN: { type: "string", filterable: true, sortable: true, editable: false },
+                            REMARK: { type: "string", filterable: true, sortable: true, editable: false },
+                        }
+                    }
+                }
+            },
+            height: 500,
+            filterable: true,
+            sortable: true,
+            pageable: true,
+            resizable: true,
+           // groupable: true,
+            pageable: {
+                refresh: true,
+                buttonCount: 10,
+                input: true,
+                pageSizes: [100, 1000, 100000],
+                info: true,
+                messages: {
+                }
+            },
+            //  editable: "inline",
+            toolbar: [
+              {
+                  name: "excel",
+                  imageClass: '<button type="button" button id="btn_export" class="btn btn-info"><span class="glyphicon glyphicon-export"></span> Export</button>'
+              }, ],
+
+            excel: {
+                fileName: "revisi_absen_failed.xlsx",
+                AllPages: true
+              // filterable: true
+            },
+
+            columns: [
+                {
+                    title: "No",
+                    width: "50px",
+                    template: "#= ++rowNo #",
+                    filterable: false,
+
+                },
+                { field: "NRP", title: "NRP", width: "100px" },
+                { field: "TANGGAL", title: "Tanggal", width: "100px" },
+                { field: "SHIFT", title: "Shift", width: "100px" },
+                { field: "IN", title: "In", width: "100px" },
+                { field: "OUT", title: "Out", width: "100px" },
+                { field: "ROSTER_CODE", title: "Roster Code", width: "100px" },
+                { field: "KODE_ABSEN", title: "Kode Absen", width: "100px" },
+                { field: "REMARK", title: "Remark", width: "100px" },
+
+            ],
+            dataBinding: function () {
+                window.rowNo = (this.dataSource.page() - 1) * this.dataSource.pageSize();
+            }
+        });
+    }
+
+    function uplodaFile(e) {
+        var files = e.files;
+        p_str_session = guid()
+
+        $.each(files, function () {
+            $("#UploadFile").data("kendoUpload").options.async.saveUrl = $("#hd_path").val() + '/RevisiAbsen/Upload?id=' + p_str_session;
+        });
+    }
+
+    function onSuccessUpload(e) {
+        loadGrid()
+        notification(e.response.countBerhasil,e.response.countGagal)
+        console.log(e.response.remark);
+    }
+
+    function onError(e) {
+        removeNotification();
+        alert(e.XMLHttpRequest.response);
+    }
+
+    function guid() {
+        var s_str_guid = ''
+
+        function s4() {
+            return Math.floor((1 + Math.random()) * 0x10000)
+              .toString(16)
+              .substring(1);
+        }
+
+        s_str_guid = s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+                     s4() + '-' + s4() + s4() + s4();
+
+        return s_str_guid
+    }
+
+    function notification(b, g) {
+
+        removeNotification();
+
+        i_str_result = g == 0 ? "success" : "danger"
+
+        i_str_div = '<div id="dv_childNotif" class="alert alert-' + i_str_result + '">' +
+                    '<span class="glyphicon glyphicon-info-sign"></span>' +
+                    '&nbsp; Hasil Upload : '+ g +' Gagal, '+ b +' Berhasil' +
+                    '</div>'
+
+        $("#dv_notification").append(i_str_div)
+
+    }
+
+    function removeNotification() {
+        $("#dv_childNotif").remove()
+    }
+
+</script>
+

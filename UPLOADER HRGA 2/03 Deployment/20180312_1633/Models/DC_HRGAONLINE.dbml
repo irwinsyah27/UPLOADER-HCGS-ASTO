@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="DATA_ABS1" Class="DC_HRGAONLINEDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=PABBAPCO401\SQLEXPRESS;Initial Catalog=DATA_ABS1;Persist Security Info=True;User ID=sa" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="DATA_ABS1ConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="UPLOADER.TBL_TEMP_UPLOAD_ROSTER" Member="TBL_TEMP_UPLOAD_ROSTERs">
+    <Type Name="TBL_TEMP_UPLOAD_ROSTER">
+      <Column Name="PID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="SESSION_ID" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="NRP" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="ROSTER_CODE" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="HARI_KE7" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="STATUS" Type="System.String" DbType="VarChar(2)" CanBeNull="true" />
+      <Column Name="REMARK" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="UPLOADER.TBL_TEMP_REVISI_ABSEN" Member="TBL_TEMP_REVISI_ABSENs">
+    <Type Name="TBL_TEMP_REVISI_ABSEN">
+      <Column Name="PID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="SESSION_ID" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="NRP" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="TANGGAL" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="SHIFT" Type="System.String" DbType="VarChar(2)" CanBeNull="true" />
+      <Column Name="[IN]" Member="IN" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="OUT" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="ROSTER_CODE" Type="System.String" DbType="VarChar(3)" CanBeNull="true" />
+      <Column Name="KODE_ABSEN" Type="System.String" DbType="VarChar(4)" CanBeNull="true" />
+      <Column Name="STATUS" Type="System.String" DbType="VarChar(2)" CanBeNull="true" />
+      <Column Name="REMARK" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="UPLOADER.TBL_TEMP_SKL" Member="TBL_TEMP_SKLs">
+    <Type Name="TBL_TEMP_SKL">
+      <Column Name="PID" Type="System.String" DbType="VarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="SESSION_ID" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="NRP_USER" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="NRP" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="TGL_LEMBUR" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="AWAL_LEMBUR" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="AKHIR_LEMBUR" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="URAIAN_LEMBUR" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="STATUS" Type="System.String" DbType="VarChar(2)" CanBeNull="true" />
+      <Column Name="REMARK" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Function Name="UPLOADER.SP_UPLOAD_ROSTER" Method="SP_UPLOAD_ROSTER">
+    <Parameter Name="SESSION_ID" Parameter="sESSION_ID" Type="System.String" DbType="VarChar(50)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="UPLOADER.SP_UPLOAD_REVISI_ABSEN" Method="SP_UPLOAD_REVISI_ABSEN">
+    <Parameter Name="SESSION_ID" Parameter="sESSION_ID" Type="System.String" DbType="VarChar(50)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="UPLOADER.SP_UPLOAD_SKL" Method="SP_UPLOAD_SKL">
+    <Parameter Name="SESSION_ID" Parameter="sESSION_ID" Type="System.String" DbType="VarChar(50)" />
+    <Return Type="System.Int32" />
+  </Function>
+</Database>

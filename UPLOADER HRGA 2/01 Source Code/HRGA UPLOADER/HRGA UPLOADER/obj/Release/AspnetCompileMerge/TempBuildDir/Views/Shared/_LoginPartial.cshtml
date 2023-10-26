@@ -1,0 +1,43 @@
+﻿@model HRGA_UPLOADER.Models.LoginViewModel
+@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated && HttpContext.Current.Session["gpid"] != null)
+{
+
+    if (HttpContext.Current.Session["gpid"].ToString() == "1")
+    {
+         <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Upload SKL", "Index", "SklUploader")</li>
+                    <li>@Html.ActionLink("Roster", "Index", "RosterUploader")</li>
+                    <li>@Html.ActionLink("Revisi Absen", "Index", "RevisiAbsen")</li> 
+                    <li>@Html.ActionLink("Upload Elis", "Index", "ElisUploader")</li>         
+                    <li>@Html.ActionLink("Download Template", "Index", "DownloadTemplate")</li>     
+         </ul>
+    }
+    else
+    {
+         <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Roster", "Index", "RosterUploader")</li>
+                    <li>@Html.ActionLink("Upload SKL", "Index", "SklUploader")</li>
+                    <li>@Html.ActionLink("Upload Elis", "Index", "ElisUploader")</li>    
+                    <li>@Html.ActionLink("Download Template", "Index", "DownloadTemplate")</li>   
+         </ul>
+    }
+      
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+    @Html.AntiForgeryToken()
+    <ul class="nav navbar-nav navbar-right">
+        @*<li>
+            @Html.ActionLink(@ViewBag.myAccount.NAME + "!", "", "#", routeValues: null, htmlAttributes: new { title = "Manage" })
+        </li>*@
+        <li><a href="javascript:document.getElementById('logoutForm').submit()">Keluar</a></li>
+    </ul>
+    }
+}
+@*else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    </ul>
+}*@
